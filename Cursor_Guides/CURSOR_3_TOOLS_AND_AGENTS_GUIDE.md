@@ -75,8 +75,7 @@ In this template, MCP usage should follow this order:
 For MCP setup details, see:
 
 - `MCP_Setup/`
-- `.cursor/rules/ace-patterns.mdc`
-- `.cursor/commands/ace-help.md`
+- `.cursor/README.md`
 
 ## Professional Documentation Standard
 

@@ -24,7 +24,7 @@ This repository is designed to be a reusable, high-signal workspace for:
 - Background-agent orientation and expectations
 - Built-in tool usage guidance (terminal, TODOs, context references)
 - MCP workflow references and setup documentation
-- `.cursor` project-level rules, commands, and session hooks
+- `.cursor` project-level rules, command helpers, and request guidance
 
 ## Repository Map
 
