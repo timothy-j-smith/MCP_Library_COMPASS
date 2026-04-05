@@ -8,12 +8,15 @@ Use the `ace_learn` MCP tool to capture what was learned:
 
 ```
 ace_learn(
-  task: "Brief description of what was done",
-  trajectory: "Key steps taken during the task",
-  output: "Important lessons, patterns, or insights discovered",
-  success: true
+  task: "<what you accomplished>",
+  trajectory: ["<key step 1>", "<key step 2>"],
+  success: true,
+  output: "<lessons learned>",
+  git: { commit_hash: "<hash-if-available>", branch: "<branch-if-available>" }
 )
 ```
+
+Call `ace_learn` once after substantial work, ideally after the session summary is available.
 
 ## Example
 
@@ -21,9 +24,14 @@ After implementing a feature:
 ```
 ace_learn(
   task: "Implemented JWT authentication",
-  trajectory: "1. Added auth middleware 2. Created login endpoint 3. Added token refresh",
-  output: "Always use httpOnly cookies for refresh tokens. Access tokens should be short-lived (15min).",
-  success: true
+  trajectory: [
+    "Added auth middleware",
+    "Created login endpoint",
+    "Added token refresh flow"
+  ],
+  success: true,
+  output: "Use httpOnly cookies for refresh tokens and short-lived access tokens.",
+  git: { commit_hash: "abc1234", branch: "feature/jwt-auth" }
 )
 ```
 

@@ -1,5 +1,8 @@
 # CURSOR PROJECT MANAGEMENT GUIDE
 
+> Canonical Cursor 3 workflow reference: `Cursor_Guides/CURSOR_3_TOOLS_AND_AGENTS_GUIDE.md`.
+> Use this file as supplemental project-organization guidance.
+
 **Created**: January 17, 2026, 09:30 PST  
 **Purpose**: How to create and manage To Do lists, notes, and project organization in Cursor  
 **For**: Clear, organized project management
