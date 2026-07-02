@@ -1,40 +1,37 @@
 # AGENTS.md
 
-## Repository overview
+## Overview
 
-This is **COMPASS** (Creative Output Management & Production Assistance System) — a documentation and knowledge-base repository for an AI-assisted fiction writing workflow. It contains organized markdown documentation, MCP research notes, Cursor IDE configuration, and one Python utility script.
+COMPASS (Creative Output Management & Production Assistance System) is a **documentation and knowledge-base repository** for an AI-assisted fiction writing workflow built on Cursor IDE and MCP servers. It is not a runnable application with backend/frontend services.
 
-There are **no runnable application services** (no backend, frontend, database, or Docker containers). The repository is purely documentation plus supporting shell/Python scripts.
+### Repository contents
 
-### Key directories
-
-| Directory | Contents |
-|---|---|
-| `COMPASS_Docs/` | Core COMPASS system documentation |
-| `MCP_Research/` | Research notes on 30+ MCP servers |
-| `MCP_Setup/` | MCP installation guides and setup script |
-| `Style_MCPs/` | Style emulation MCP documentation |
-| `Automation/` | Automation workflow docs |
-| `Cursor_Guides/` | Cursor IDE configuration guides |
-| `Misc/` | Python utility script, miscellaneous docs |
-| `.cursor/` | ACE playbook config, cursor rules, helper scripts |
+- ~127 Markdown files: research notes, setup guides, session analysis, style MCP docs
+- `Misc/build_story_structure_mcp.py`: Python utility that converts story synopsis/outline to MCP JSON format (requires the `anthropic` package and an `ANTHROPIC_API_KEY`)
+- `MCP_Setup/setup_mcp.sh`: interactive Bash script for setting up GitKraken CLI and GitHub token (not suitable for non-interactive execution)
+- `.cursor/scripts/`: ACE framework session-tracking hooks
+- `.cursor/rules/ace-patterns.mdc`: workspace rule requiring `ace_search` MCP tool calls
 
 ## Cursor Cloud specific instructions
 
+### Repository overview
+
+This is a **documentation/knowledge-base repository** for the COMPASS (Creative Output Management & Production Assistance System) fiction writing system. It contains ~127 Markdown files, Cursor IDE ACE configuration, and one standalone Python utility script. There are **no application services, no test suites, no build systems, and no web servers**.
+
 ### Linting
 
-- **Markdown lint**: `markdownlint "**/*.md"` from the repo root. There are ~7900 pre-existing style warnings in the documentation files — these are expected and should not be "fixed" in bulk. Only address lint issues in files you actively modify.
-- **Python syntax check**: `python3 -m py_compile Misc/build_story_structure_mcp.py`
-- **Shell script syntax**: `bash -n <script.sh>` for any `.sh` files under `.cursor/scripts/` or `MCP_Setup/`.
+- **Markdown lint:** `markdownlint-cli2 "**/*.md"` from the workspace root. The repo has many existing lint warnings (mostly `MD032`, `MD022`, `MD036`); these are pre-existing and not caused by cloud agent changes.
 
-### Python utility
+### Python script
 
-The only executable code is `Misc/build_story_structure_mcp.py`, which requires the `anthropic` Python package and an `ANTHROPIC_API_KEY` environment variable. It converts synopsis/outline markdown into structured JSON for an MCP server. It cannot run without API credentials and story source files.
+- The only executable code is `Misc/build_story_structure_mcp.py`, a standalone utility that converts story outlines to MCP-compatible JSON using the Anthropic API.
+- It requires `pip install anthropic` and the `ANTHROPIC_API_KEY` environment variable (or interactive input). Without story source files (`Story_Bible/synopsis.md`, `Story_Bible/outline.md`), it exits gracefully with a non-zero code — this is expected behavior.
 
-### No services to start
+### Shell scripts
 
-There are no dev servers, build steps, or docker containers. The "hello world" action for this repo is verifying that git, Python imports, markdown linting, and shell script syntax checks all pass.
+- All `.cursor/scripts/ace_*.sh` scripts are ACE (Adaptive Cursor Engine) lifecycle hooks for Cursor IDE. They are invoked by Cursor, not by the developer directly.
+- `MCP_Setup/setup_mcp.sh` is an interactive setup script for GitKraken CLI and GitHub tokens — it prompts for user input and is not suitable for non-interactive/automated use.
 
-### ACE playbook
+### ACE configuration
 
-The `.cursor/rules/ace-patterns.mdc` rule requires calling `ace_search` at the start of every session. This is an MCP tool provided externally and may not be available in all environments. If `ace_search` is unavailable, proceed without it — it is not required for repository functionality.
+- The `.cursor/rules/ace-patterns.mdc` rule file instructs agents to call `ace_search` MCP tool before implementation tasks. In Cloud Agent environments where this MCP tool is unavailable, this rule can be safely ignored.

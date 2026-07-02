@@ -1,6 +1,9 @@
 # CURSOR BUILT-IN TOOLS: SEQUENTIAL THINKING ANALYSIS
 ## Discovering Hidden Cursor Features - January 24, 2026
 
+> Legacy deep-dive note: this document is analysis-focused and date-stamped.  
+> For the current professional workflow baseline, use `Cursor_Guides/CURSOR_3_TOOLS_AND_AGENTS_GUIDE.md`.
+
 **Methodology:** Sequential Thinking Base + MAS + Ultra + Enhanced  
 **Purpose:** Identify all Cursor built-in tools you might not know about
 
