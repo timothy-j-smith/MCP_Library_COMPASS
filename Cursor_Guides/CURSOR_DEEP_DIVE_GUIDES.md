@@ -4,6 +4,9 @@
 **Purpose:** Master Composer, Chat, Terminal, and Search & Replace  
 **Methodology:** Sequential Thinking analysis where requested
 
+> Legacy deep-dive note: this document is a historical deep dive.  
+> For current operational Cursor 3 guidance, use `Cursor_Guides/CURSOR_3_TOOLS_AND_AGENTS_GUIDE.md` first.
+
 ---
 
 ## PART I: COMPOSER - MULTI-FILE COMPOSITION MASTERY
