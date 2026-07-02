@@ -1,5 +1,17 @@
 # AGENTS.md
 
+## Overview
+
+COMPASS (Creative Output Management & Production Assistance System) is a **documentation and knowledge-base repository** for an AI-assisted fiction writing workflow built on Cursor IDE and MCP servers. It is not a runnable application with backend/frontend services.
+
+### Repository contents
+
+- ~127 Markdown files: research notes, setup guides, session analysis, style MCP docs
+- `Misc/build_story_structure_mcp.py`: Python utility that converts story synopsis/outline to MCP JSON format (requires the `anthropic` package and an `ANTHROPIC_API_KEY`)
+- `MCP_Setup/setup_mcp.sh`: interactive Bash script for setting up GitKraken CLI and GitHub token (not suitable for non-interactive execution)
+- `.cursor/scripts/`: ACE framework session-tracking hooks
+- `.cursor/rules/ace-patterns.mdc`: workspace rule requiring `ace_search` MCP tool calls
+
 ## Cursor Cloud specific instructions
 
 ### Repository overview
