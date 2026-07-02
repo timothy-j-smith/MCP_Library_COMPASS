@@ -1,6 +1,9 @@
 # CURSOR API/CLI, EXTENSIONS & WORKFLOW ORCHESTRATOR MCP
 ## Complete Research & Implementation Plan - January 24, 2026
 
+> Legacy deep-dive note: Treat this document as supplemental research.
+> For current operational guidance, use `Cursor_Guides/CURSOR_3_TOOLS_AND_AGENTS_GUIDE.md`.
+
 ---
 
 ## PART I: CURSOR API/CLI RESEARCH
@@ -16,7 +19,7 @@
    - **Status:** ✅ You're using this extensively (27 MCPs configured)
 
 2. **Command Palette API**
-   - **Access:** `⌘K` (Mac) or `Ctrl+K` (Windows)`
+   - **Access:** `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows/Linux)
    - **All Commands:** `Cursor: Show All Commands`
    - **Status:** ✅ Available - can be automated via scripts
 
