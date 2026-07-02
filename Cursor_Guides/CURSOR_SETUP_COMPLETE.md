@@ -1,6 +1,8 @@
 # CURSOR SETUP COMPLETE ✅
 ## Notepads, TODO System, and Deep Dive Guides - January 24, 2026
 
+> Canonical update: for current workflow standards, read `CURSOR_3_TOOLS_AND_AGENTS_GUIDE.md` first. This file is retained as historical setup context.
+
 ---
 
 ## ✅ SETUP COMPLETE

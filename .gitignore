@@ -1,3 +1,4 @@
 
 .cursor/hooks.json
 .cursor/hooks/after-agent-response.js
+__pycache__/
