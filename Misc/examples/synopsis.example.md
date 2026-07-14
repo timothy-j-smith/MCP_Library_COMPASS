@@ -11,6 +11,12 @@ A grieving cartographer discovers a hand-drawn map that redraws itself each
 night, charting a city that does not exist. As she follows its streets, she
 must decide whether the phantom city is a memory, a warning, or a way home.
 
+## Characters
+
+- Mara Vale (protagonist): a grieving cartographer who inherits the living map
+- Edmund Vale — mentor, Mara's late father whose voice haunts the phantom city
+- The Surveyor (antagonist): a figure who redraws the map to trap those who enter
+
 ## Themes
 
 - Grief and the geography of memory

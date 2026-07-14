@@ -10,6 +10,7 @@ JSON "import bundle" whose steps map directly onto Book Series MCP
 
   * create_series            (book-series-manager)
   * create_series_book       (book-series-manager)
+  * create_series_character  (book-series-manager)  -- one per "## Characters" entry
   * create_series_plot_thread(book-series-manager)  -- one per theme/arc
   * bulk_chapter_operations  (writing-production)   -- create_outline_batch
 
@@ -46,6 +47,13 @@ _CHAPTER_RES = [
 
 # A markdown heading of any level (used to end a chapter's summary block).
 _HEADING_RE = re.compile(r"^#{1,6}\s+\S")
+
+# Known character-type keywords, checked (longest first) against the descriptor
+# text of a "## Characters" entry.
+_CHARACTER_TYPES = [
+    "protagonist", "antagonist", "deuteragonist", "love interest",
+    "supporting", "mentor", "sidekick", "villain", "narrator", "detective",
+]
 
 
 def _read(path: Path) -> str:
@@ -102,6 +110,64 @@ def _extract_themes(text: str) -> list:
     return themes
 
 
+def _parse_character_line(item: str) -> dict:
+    """Parse one character bullet into {name, character_type, description}.
+
+    Handles shapes like:
+      "Mara Vale (protagonist): grieving cartographer"
+      "**Mara Vale** - protagonist, cartographer"
+      "Mara Vale \u2014 antagonist"
+    """
+    item = item.strip().strip("*_").strip()
+    name, descriptor = item, ""
+
+    paren = re.match(r"^(.*?)\s*\(([^)]*)\)\s*[:\-\u2013\u2014]?\s*(.*)$", item)
+    if paren:
+        name = paren.group(1).strip().strip("*_")
+        descriptor = (paren.group(2).strip() + " " + paren.group(3).strip()).strip()
+    else:
+        m = re.match(r"^(.*?)\s*[:\-\u2013\u2014]\s+(.*)$", item)
+        if m:
+            name = m.group(1).strip().strip("*_")
+            descriptor = m.group(2).strip()
+
+    character_type = "supporting"
+    lowered = descriptor.lower()
+    for t in _CHARACTER_TYPES:
+        if re.search(r"\b" + re.escape(t) + r"\b", lowered):
+            character_type = t
+            break
+
+    return {
+        "name": name,
+        "character_type": character_type,
+        "description": descriptor,
+    }
+
+
+def _extract_characters(text: str) -> list:
+    """Bulleted entries under a heading/line containing 'character'/'cast'."""
+    characters = []
+    in_block = False
+    for line in text.splitlines():
+        stripped = line.strip()
+        if re.search(r"character|cast", stripped, re.I) and (
+            stripped.startswith("#") or stripped.rstrip().endswith(":")
+        ):
+            in_block = True
+            continue
+        if in_block:
+            if stripped.startswith(("-", "*")):
+                entry = _parse_character_line(stripped.lstrip("-*"))
+                if entry["name"]:
+                    characters.append(entry)
+            elif stripped == "":
+                continue
+            else:
+                in_block = False
+    return characters
+
+
 def _first_paragraph(text: str) -> str:
     """First non-heading, non-metadata paragraph -- used as the premise."""
     paras, current = [], []
@@ -137,6 +203,7 @@ def parse_synopsis(text: str) -> dict:
         "logline": meta.get("logline") or "",
         "premise": meta.get("premise") or _first_paragraph(text),
         "themes": _extract_themes(text),
+        "characters": _extract_characters(text),
     }
 
 
@@ -146,6 +213,19 @@ def _match_chapter(line: str):
         if m:
             return int(m.group(1)), m.group(2).strip().strip("*_")
     return None
+
+
+def _title_or_summary(trailing: str):
+    """Classify a chapter header's inline trailing text.
+
+    A short, title-like fragment becomes the chapter title; a sentence-like
+    fragment (ends with terminal punctuation or is long) becomes the summary.
+    Returns a ``(title, inline_summary)`` tuple.
+    """
+    trailing = trailing.strip()
+    if trailing and (trailing[-1] in ".?!" or len(trailing.split()) > 8):
+        return "", trailing
+    return trailing, ""
 
 
 def parse_outline(text: str) -> list:
@@ -163,9 +243,10 @@ def parse_outline(text: str) -> list:
         matched = _match_chapter(line)
         if matched:
             _flush()
-            num, title = matched
+            num, trailing = matched
+            title, inline_summary = _title_or_summary(trailing)
             current = {"chapter_number": num, "title": title, "summary": ""}
-            summary_lines = []
+            summary_lines = [inline_summary] if inline_summary else []
             continue
         if current is not None:
             stripped = line.strip()
@@ -224,6 +305,18 @@ def build_bundle(synopsis: dict, chapters: list, series_id, book_number: int) ->
         "capture": "book_id",
     })
 
+    for character in synopsis["characters"]:
+        steps.append({
+            "server": "manager",
+            "tool": "create_series_character",
+            "arguments": {
+                "series_id": series_ref,
+                "name": character["name"],
+                "character_type": character["character_type"],
+                "background_story": character["description"] or None,
+            },
+        })
+
     for theme in synopsis["themes"]:
         steps.append({
             "server": "manager",
@@ -261,6 +354,7 @@ def build_bundle(synopsis: dict, chapters: list, series_id, book_number: int) ->
         "meta": {
             "title": synopsis["title"],
             "series_name": synopsis["series_name"],
+            "character_count": len(synopsis["characters"]),
             "theme_count": len(synopsis["themes"]),
             "chapter_count": len(chapters),
         },
@@ -301,7 +395,8 @@ def main() -> int:
         Path(args.out).write_text(output + "\n", encoding="utf-8")
         print(f"Wrote import bundle to {args.out}", file=sys.stderr)
         print(f"  Title: {synopsis['title']}", file=sys.stderr)
-        print(f"  Themes: {len(synopsis['themes'])}  Chapters: {len(chapters)}", file=sys.stderr)
+        print(f"  Characters: {len(synopsis['characters'])}  "
+              f"Themes: {len(synopsis['themes'])}  Chapters: {len(chapters)}", file=sys.stderr)
     return 0
 
 
