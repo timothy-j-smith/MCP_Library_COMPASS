@@ -103,8 +103,15 @@ the converter makes **no** external API calls, so it is deterministic.
 | Story Bible source | Book Series MCP tool | Result |
 |--------------------|----------------------|--------|
 | Synopsis title / series / genre / premise | `create_series`, `create_series_book` | Series + Book records (`main_case_description` = premise) |
+| Synopsis `## Characters` bullets | `create_series_character` (one per entry) | Character records (type inferred: protagonist/antagonist/mentor/...) |
 | Synopsis `## Themes` bullets | `create_series_plot_thread` (one per theme) | `series_arc` plot threads |
 | Outline `## Chapter N: Title` + text | `bulk_chapter_operations` → `create_outline_batch` | Chapter outlines (`status = outlined`) |
+
+A `## Characters` entry may be written as `Name (type): description`,
+`**Name** - type, description`, or `Name — type`; the character type is
+inferred from keywords in the descriptor (default `supporting`). A chapter
+header's inline trailing text is treated as the **title** when short and
+title-like, or as the **summary** when it reads like a sentence.
 
 ### Step 1 — build the import bundle (offline, deterministic)
 
@@ -141,9 +148,18 @@ steps into later ones. It prints a per-step progress line and the final
 ### Step 3 — verify
 
 Read the data back through the MCP tools, e.g. `get_chapters { book_id }` on the
-writing server and `get_series_plot_threads { series_id }` on the manager
-server. You should see the chapter outlines (`status: outlined`) and one
-`series_arc` thread per theme.
+writing server and `get_series_characters { series_id }` /
+`get_series_plot_threads { series_id }` on the manager server. You should see
+the chapter outlines (`status: outlined`), one character per `## Characters`
+entry, and one `series_arc` thread per theme.
+
+### Tests
+
+The parser has stdlib-only unit tests (no DB required):
+
+```bash
+python3 Misc/tests/test_convert_synopsis_outline.py
+```
 
 ## 4. Relationship to `build_story_structure_mcp.py`
 
