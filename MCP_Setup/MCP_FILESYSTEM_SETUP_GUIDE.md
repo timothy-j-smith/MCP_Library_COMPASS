@@ -6,6 +6,19 @@
 
 ---
 
+## ⚠️ CORRECTION (added July 14, 2026): This is NOT universally necessary
+
+Everything below was written as if Filesystem MCP is required "foundation" for every client. That's only true for **Claude Desktop** (the local Mac app, not Claude Projects on claude.ai). It is redundant in other places:
+
+- **Cursor:** Already has native, built-in file read/write/search tools for whatever folder is open as the workspace. Filesystem MCP pointed at that same folder duplicates functionality Cursor's own agent already has — it does nothing extra. It's only useful in Cursor if you want the agent to reach a folder **outside** the current workspace (e.g., a different novel's folder).
+- **Claude Projects (claude.ai web):** Uses a manually-uploaded, static knowledge-base snapshot, not live disk access. It runs in the cloud with no path to your Mac's disk at all, so a local Filesystem MCP server can't attach to it regardless — this isn't a redundancy, it's a different mechanism entirely (re-upload files by hand to update what Claude sees there).
+- **Claude Desktop (local app):** This is the one place Filesystem MCP does real work — the chat app has no disk access on its own, so this is the only way to give it live read/write to the novel folder.
+- **HyperAgent** (and similar tools that take "docs" as input): likely closer to the Projects model — static context you feed it — but confirm against that tool's own docs rather than assuming.
+
+**Practical takeaway for Walk This Way:** if you write exclusively inside Cursor with the folder open as the workspace, `walk-this-way-files` in that client's config is inert — safe to remove there. Keep it only for Claude Desktop, or if you want cross-folder access inside Cursor.
+
+---
+
 ## 🎯 YOUR QUESTION ANSWERED
 
 **Q: "Is Filesystem MCP specific to Walk This Way folder, and for the next novel I'd set it up similarly and make sure we don't forget since it's embedded in Walk This Way?"**
