@@ -35,3 +35,8 @@ This is a **documentation/knowledge-base repository** for the COMPASS (Creative 
 ### ACE configuration
 
 - The `.cursor/rules/ace-patterns.mdc` rule file instructs agents to call `ace_search` MCP tool before implementation tasks. In Cloud Agent environments where this MCP tool is unavailable, this rule can be safely ignored.
+
+### Book Series MCP conversion helpers (`Misc/`)
+
+- `Misc/convert_synopsis_outline_to_book_series.py` (Python stdlib only, no API) parses a Story Bible `synopsis.md` + `outline.md` into a Book Series MCP import bundle. `Misc/import_to_book_series.mjs` (Node stdlib only) applies that bundle to a running Book Series MCP by speaking JSON-RPC over stdio. Example inputs live in `Misc/examples/`. Full workflow: `MCP_Setup/BOOK_SERIES_MCP_SETUP_AND_CONVERSION.md`.
+- The importer needs an **external** [book-series-mcp](https://github.com/RLRyals/book-series-mcp) checkout (Node.js + PostgreSQL) — it is NOT part of this repo, so it is intentionally excluded from the update script. Book Series MCP is **Node.js + PostgreSQL** using `DATABASE_URL` (older notes in this repo saying "Python / `pip install` / `POSTGRES_URI`" are wrong). Its `init.sql` must be followed by `migrations/2025*.sql` in order (a few init.sql/migration errors are benign; see the setup doc).

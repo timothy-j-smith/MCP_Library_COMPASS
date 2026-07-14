@@ -52,7 +52,7 @@ These MCPs are **enabled** in `.cursor/config/mcp.json`. Set the env var(s) and/
 
 | MCP | Requires API? | Env var(s) | Notes |
 |-----|----------------|------------|--------|
-| **book-series** | Yes | `POSTGRES_URI` | Python + PostgreSQL. Install: `pip install book-series-mcp` (or clone [book-series-mcp](https://github.com/rlryals/book-series-mcp)); set `POSTGRES_URI`. |
+| **book-series** | Yes | `DATABASE_URL` | **Node.js (v16+) + PostgreSQL** (not Python). Clone [book-series-mcp](https://github.com/RLRyals/book-series-mcp), `npm install`, load `init.sql` + `migrations/`, set `DATABASE_URL`. Full guide: **[BOOK_SERIES_MCP_SETUP_AND_CONVERSION.md](BOOK_SERIES_MCP_SETUP_AND_CONVERSION.md)**. |
 | **scanadi-mcp-ai-memory** | Yes | `POSTGRES_URI` | Python + PostgreSQL + pgvector. Install per [scanadi/mcp-ai-memory](https://github.com/scanadi/mcp-ai-memory) (or similar); set `POSTGRES_URI`. |
 | **writer-mcp** | Yes | `POSTGRES_URI`, `OPENAI_API_KEY` | Python + PostgreSQL. Install per writer-mcp project docs; set both env vars. |
 | **getgather** | Depends | — | Python: [mcp-getgather/mcp-getgather](https://github.com/mcp-getgather/mcp-getgather). Clone, install (`pip install -e .` or per README), ensure `python -m mcp_getgather` works. |
