@@ -11,6 +11,13 @@
     "sequential-thinking-structured": {
       "command": "npx",
       "args": ["-y", "mcp-sequential-thinking"]
+    },
+    "knowledge-graph-memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "env": {
+        "MEMORY_FILE_PATH": ".cursor/memory.json"
+      }
     }
   }
 }
