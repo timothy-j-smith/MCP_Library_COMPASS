@@ -29,6 +29,21 @@ const SERVER_ENTRYPOINTS = {
   character: 'src/character-server/index.js',
 };
 
+// Dedupe rules per create-tool: before creating, list existing records with
+// `listTool` and skip when a record already matches on `field`. This makes the
+// import idempotent and avoids duplicate characters/plot threads/books when the
+// same synopsis is imported more than once. `create_series` degrades gracefully
+// if its list tool is unavailable (e.g. the upstream `series_overview` view is
+// missing) — in that case a new series is created.
+const DEDUPE_RULES = {
+  create_series: { server: 'manager', listTool: 'get_series_overview', listArgs: () => ({}), field: 'name' },
+  create_series_book: { server: 'manager', listTool: 'get_series_books', listArgs: (a) => ({ series_id: a.series_id }), field: 'book_number', numeric: true },
+  create_series_character: { server: 'manager', listTool: 'get_series_characters', listArgs: (a) => ({ series_id: a.series_id }), field: 'name' },
+  create_series_plot_thread: { server: 'manager', listTool: 'get_series_plot_threads', listArgs: (a) => ({ series_id: a.series_id }), field: 'title' },
+};
+
+const norm = (v) => String(v ?? '').trim().toLowerCase();
+
 class McpStdioClient {
   constructor(entryPath, env) {
     this.proc = spawn('node', [entryPath], {
@@ -130,13 +145,30 @@ function substitute(value, captures) {
   return value;
 }
 
+async function findExisting(client, rule, args, captures) {
+  const listArgs = substitute(rule.listArgs(args), captures);
+  const result = await client.callTool(rule.listTool, listArgs);
+  if (result && result.isError) return undefined; // list tool unavailable
+  let rows;
+  try { rows = JSON.parse(textOf(result)); } catch { return undefined; }
+  if (!Array.isArray(rows)) return undefined;
+  const want = args[rule.field];
+  const match = rows.find((r) => (rule.numeric
+    ? Number(r[rule.field]) === Number(want)
+    : norm(r[rule.field]) === norm(want)));
+  return match && match.id !== undefined ? match.id : undefined;
+}
+
 async function main() {
-  const bundlePath = process.argv[2];
+  const flags = new Set(process.argv.filter((a) => a.startsWith('--')));
+  const positional = process.argv.slice(2).filter((a) => !a.startsWith('--'));
+  const dedupe = !flags.has('--no-dedupe');
+  const bundlePath = positional[0];
   if (!bundlePath) {
-    console.error('Usage: node import_to_book_series.mjs <bundle.json>');
+    console.error('Usage: node import_to_book_series.mjs [--no-dedupe] <bundle.json>');
     process.exit(2);
   }
-  const home = process.env.BOOK_SERIES_MCP_HOME || process.argv[3];
+  const home = process.env.BOOK_SERIES_MCP_HOME || positional[1];
   if (!home) {
     console.error('Set BOOK_SERIES_MCP_HOME (or pass it as arg 2) to the book-series-mcp checkout.');
     process.exit(2);
@@ -167,6 +199,18 @@ async function main() {
       stepNum += 1;
       const client = await getClient(step.server);
       const args = substitute(step.arguments, captures);
+
+      const rule = dedupe ? DEDUPE_RULES[step.tool] : undefined;
+      if (rule) {
+        const existingId = await findExisting(await getClient(rule.server), rule, args, captures);
+        if (existingId !== undefined) {
+          let note = '';
+          if (step.capture) { captures[step.capture] = existingId; note = ` -> ${step.capture}=${existingId}`; }
+          console.log(`[${stepNum}/${bundle.steps.length}] ${step.server}:${step.tool} skipped (exists id=${existingId})${note}`);
+          continue;
+        }
+      }
+
       const result = await client.callTool(step.tool, args);
       if (result && result.isError) {
         throw new Error(`Tool ${step.tool} failed: ${textOf(result)}`);
