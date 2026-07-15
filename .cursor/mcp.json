@@ -18,6 +18,13 @@
       "env": {
         "MEMORY_FILE_PATH": ".cursor/memory.json"
       }
+    },
+    "sequential-thinking-mas": {
+      "command": "mcp-server-mas-sequential-thinking",
+      "env": {
+        "LLM_PROVIDER": "deepseek",
+        "DEEPSEEK_API_KEY": ""
+      }
     }
   }
 }
