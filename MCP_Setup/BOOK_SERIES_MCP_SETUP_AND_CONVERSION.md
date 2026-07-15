@@ -145,6 +145,27 @@ stdio, and substitutes the `$series_id` / `$book_id` ids captured from earlier
 steps into later ones. It prints a per-step progress line and the final
 `series_id` / `book_id`.
 
+**Deduplication (default on).** Before each create step the importer lists
+existing records and skips creation when one already matches, so imports are
+**idempotent** and re-importing (or adding a second book to a series) does not
+duplicate the cast:
+
+| Create step | Matched against | Match key |
+|-------------|-----------------|-----------|
+| `create_series_book` | `get_series_books` | `book_number` (existing id reused for `$book_id`) |
+| `create_series_character` | `get_series_characters` | `name` |
+| `create_series_plot_thread` | `get_series_plot_threads` | `title` |
+| `create_series` | `get_series_overview` | `name` |
+
+Chapter outlines are upserted by `chapter_number` by `create_outline_batch`
+itself, so they are already idempotent. Pass `--no-dedupe` to disable the checks
+and always create.
+
+> Series dedup depends on the upstream `get_series_overview` tool, which relies
+> on a `series_overview` view that current Book Series MCP does not create. If
+> that tool is unavailable the importer logs nothing special and simply creates
+> a new series; to reliably reuse a series, pass `--series-id`.
+
 ### Step 3 — verify
 
 Read the data back through the MCP tools, e.g. `get_chapters { book_id }` on the
