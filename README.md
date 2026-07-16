@@ -12,10 +12,11 @@ This repository is designed to be a reusable, high-signal workspace for:
 
 ## Start Here
 
-1. Read `Cursor_Guides/CURSOR_3_TOOLS_AND_AGENTS_GUIDE.md`.
-2. Read `.cursor/README.md` to understand project rules, commands, and hooks.
-3. Use `Cursor_Guides/README.md` to navigate all Cursor-focused guides.
-4. Use `Sequential_Thinking/README.md` to navigate the "brothers" analysis set.
+1. **Read `MCP_Setup/CURRENT_STATE.md` first** — the single "what's actually true right now" reference for every MCP in the arsenal (scope, config location, verification status). Everything else in this repo is historical planning/evaluation context.
+2. Read `Cursor_Guides/CURSOR_3_TOOLS_AND_AGENTS_GUIDE.md`.
+3. Read `.cursor/README.md` to understand project rules, commands, and hooks.
+4. Use `Cursor_Guides/README.md` to navigate all Cursor-focused guides.
+5. Use `Sequential_Thinking/README.md` to navigate the "brothers" analysis set.
 
 ## Cursor 3 Coverage Checklist
 
