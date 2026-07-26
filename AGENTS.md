@@ -7,6 +7,7 @@ COMPASS (Creative Output Management & Production Assistance System) is a **docum
 ### Repository contents
 
 - ~127 Markdown files: research notes, setup guides, session analysis, style MCP docs
+- `MCP_Implementations/fiction-reverse-engineering/`: Fiction Reverse Engineering MCP (local Python MCP server; tools for pacing/formula analysis). Configured in `.cursor/mcp.json` as `fiction-reverse-engineering`. Requires `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt` (package: `mcp`).
 - `Misc/build_story_structure_mcp.py`: Python utility that converts story synopsis/outline to MCP JSON format (requires the `anthropic` package and an `ANTHROPIC_API_KEY`)
 - `MCP_Setup/setup_mcp.sh`: interactive Bash script for setting up GitKraken CLI and GitHub token (not suitable for non-interactive execution)
 - `.cursor/scripts/`: ACE framework session-tracking hooks
@@ -22,10 +23,10 @@ This is a **documentation/knowledge-base repository** for the COMPASS (Creative 
 
 - **Markdown lint:** `markdownlint-cli2 "**/*.md"` from the workspace root. The repo has many existing lint warnings (mostly `MD032`, `MD022`, `MD036`); these are pre-existing and not caused by cloud agent changes.
 
-### Python script
+### Python scripts / MCP servers
 
-- The only executable code is `Misc/build_story_structure_mcp.py`, a standalone utility that converts story outlines to MCP-compatible JSON using the Anthropic API.
-- It requires `pip install anthropic` and the `ANTHROPIC_API_KEY` environment variable (or interactive input). Without story source files (`Story_Bible/synopsis.md`, `Story_Bible/outline.md`), it exits gracefully with a non-zero code — this is expected behavior.
+- `Misc/build_story_structure_mcp.py`: converts story outlines to MCP-compatible JSON using the Anthropic API. Requires `pip install anthropic` and `ANTHROPIC_API_KEY` (or interactive input). Without story source files (`Story_Bible/synopsis.md`, `Story_Bible/outline.md`), it exits gracefully with a non-zero code — this is expected behavior.
+- `MCP_Implementations/fiction-reverse-engineering/server.py`: Fiction Reverse Engineering MCP (stdio FastMCP). Install with `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt`. Analyzer tests: `python3 MCP_Implementations/fiction-reverse-engineering/tests/test_analyzer.py`.
 
 ### Shell scripts
 
