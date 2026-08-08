@@ -21,8 +21,9 @@ Primarily a documentation/knowledge-base repo plus a few local Python/Node helpe
 
 ### Dependencies / update script gotchas
 
-- **Pin `mcp` to 1.x:** `pip install -r .../requirements.txt` must resolve `mcp>=1.25.0,<2`. Bare `mcp>=1.25.0` can pull **mcp 2.0**, which removes `mcp.server.fastmcp.FastMCP` and breaks `MCP_Implementations/fiction-reverse-engineering/server.py`.
+- **Pin `mcp` to 1.x:** install must resolve `mcp>=1.25.0,<2`. Bare `mcp>=1.25.0` can pull **mcp 2.0**, which removes `mcp.server.fastmcp.FastMCP` and breaks `MCP_Implementations/fiction-reverse-engineering/server.py`.
 - **User-local bins:** `markdownlint-cli2` (and some pip scripts) install under `~/.local/bin`. Ensure that directory is on `PATH` before linting.
+- **Cloud Agent Builds:** `.cursor/environment.json` defines the install-only bootstrap (no `start`/`terminals` — this repo has no long-running services). Do **not** put Book Series MCP / PostgreSQL startup in install.
 - Do **not** put Book Series MCP / PostgreSQL startup in the update script — see Book Series section below.
 
 ### Linting
