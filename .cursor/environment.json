@@ -1,0 +1,3 @@
+{
+  "install": "pip3 install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt\npip3 install anthropic\nnpm install -g markdownlint-cli2 --prefix \"$HOME/.local\""
+}
