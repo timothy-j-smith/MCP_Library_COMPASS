@@ -6,13 +6,55 @@
 # initialize/list tools; set a real EXA_API_KEY for live Exa research.
 #
 # LLM calls need a real provider key matching LLM_PROVIDER (default: deepseek).
+#
+# Cursor’s MCP process often has a stripped PATH that omits ~/.local/bin
+# (Linux) or ~/Library/Python/*/bin (macOS) after `pip install --user`.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BIN_NAME="mcp-server-mas-sequential-thinking"
 
-if ! command -v mcp-server-mas-sequential-thinking >/dev/null 2>&1; then
-  echo "sequential-thinking-mas: package not installed." >&2
+resolve_bin() {
+  local candidate
+  if command -v "$BIN_NAME" >/dev/null 2>&1; then
+    command -v "$BIN_NAME"
+    return 0
+  fi
+  for candidate in \
+    "${HOME}/.local/bin/${BIN_NAME}" \
+    "${HOME}/Library/Python/3.12/bin/${BIN_NAME}" \
+    "${HOME}/Library/Python/3.11/bin/${BIN_NAME}" \
+    "${HOME}/Library/Python/3.10/bin/${BIN_NAME}"
+  do
+    if [[ -x "$candidate" ]]; then
+      echo "$candidate"
+      return 0
+    fi
+  done
+  # Last resort: ask the active python where the console script lives.
+  local from_py
+  from_py="$(python3 - <<'PY' 2>/dev/null || true
+import sys
+from pathlib import Path
+for base in [Path(sys.prefix) / "bin", Path.home() / ".local" / "bin"]:
+    p = base / "mcp-server-mas-sequential-thinking"
+    if p.is_file():
+        print(p)
+        break
+PY
+)"
+  if [[ -n "$from_py" && -x "$from_py" ]]; then
+    echo "$from_py"
+    return 0
+  fi
+  return 1
+}
+
+MAS_BIN="$(resolve_bin || true)"
+if [[ -z "${MAS_BIN}" ]]; then
+  echo "sequential-thinking-mas: package not installed (or not on PATH)." >&2
   echo "Run: pip install --user -r \"${ROOT}/requirements.txt\"" >&2
+  echo "Then ensure the console script is reachable (often ~/.local/bin)." >&2
   exit 1
 fi
 
@@ -50,4 +92,4 @@ case "${LLM_PROVIDER}" in
     ;;
 esac
 
-exec mcp-server-mas-sequential-thinking "$@"
+exec "$MAS_BIN" "$@"

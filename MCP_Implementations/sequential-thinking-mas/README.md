@@ -26,14 +26,24 @@ upstream is verified.
 
 ## Install
 
+From the **repository root** (Cursor project MCP cwd is the workspace root):
+
 ```bash
 pip install --user -r MCP_Implementations/sequential-thinking-mas/requirements.txt
 ```
 
+`run.sh` resolves the console script even when Cursor’s MCP PATH omits
+`~/.local/bin` / macOS user `Library/Python/*/bin`. If install used a venv,
+put that venv’s `bin` on PATH or point `command` at the venv binary.
+
+Also check `~/.cursor/mcp.json` for leftover `"DEEPSEEK_API_KEY": ""` entries —
+empty strings override host keys and can red-badge or break tool calls.
+
 ## Configure
 
 `.cursor/mcp.json` should launch via this script and **must not** set empty
-API key strings:
+API key strings. The `args` path is workspace-relative, so open this repo as
+the Cursor project root (or use an absolute path to `run.sh`):
 
 ```json
 "sequential-thinking-mas": {
@@ -51,7 +61,7 @@ Set in the **host environment** (not committed):
 
 | Variable | Required for | Notes |
 |----------|--------------|-------|
-| `DEEPSEEK_API_KEY` | Tool calls when `LLM_PROVIDER=deepseek` | Other providers: `GROQ_API_KEY`, `OPENROUTER_API_KEY`, etc. |
+| `DEEPSEEK_API_KEY` | Tool calls when `LLM_PROVIDER=deepseek` | Other providers: `GROQ_API_KEY`, `OPENROUTER_API_KEY`, etc. Missing key ≠ red badge; only tool execution fails. |
 | `EXA_API_KEY` | Live Exa research | Optional; placeholder used only so the process can start |
 
 ## Verify
@@ -61,3 +71,11 @@ bash MCP_Setup/probe_mcp_servers.sh
 ```
 
 Expect `sequential-thinking-mas` → `OK` (initialize + `tools/list`).
+Also smoke with a stripped PATH:
+
+```bash
+env -i HOME="$HOME" PATH="/usr/bin:/bin" LLM_PROVIDER=deepseek \
+  bash MCP_Implementations/sequential-thinking-mas/run.sh
+```
+
+(Send a JSON-RPC initialize over stdin, or rely on the probe script.)
