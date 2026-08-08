@@ -29,7 +29,7 @@ Two places an MCP's config can live, and the test for which one applies (worked 
 | Scope | Lives in | Test |
 |---|---|---|
 | **Global** | `~/.cursor/mcp.json` (Cursor) or `claude_desktop_config.json` (Claude Desktop) — set up once | Neither `args` nor `env` names a path/file specific to one novel |
-| **Project-specific** | `.cursor/config/mcp.json` inside that novel's folder — repeated per novel | `args` or `env` (e.g. a data file, a `MEMORY_FILE_PATH`, a filesystem root) points at *this* novel's folder |
+| **Project-specific** | `.cursor/mcp.json` inside that project/novel folder (canonical Cursor path; older docs saying `.cursor/config/mcp.json` are outdated) | `args` or `env` (e.g. a data file, a `MEMORY_FILE_PATH`, a filesystem root) points at *this* novel's folder |
 
 ---
 
@@ -37,9 +37,9 @@ Two places an MCP's config can live, and the test for which one applies (worked 
 
 | MCP | What it does (one line) | Scope | Config location | Status |
 |---|---|---|---|---|
-| **Filesystem** (`walk-this-way-files`) | Lets the client read/write the novel folder directly | Project-specific | `.cursor/config/mcp.json` per novel | Documented active — **only matters in Claude Desktop**; redundant in Cursor if the folder is already the open workspace (see correction in `MCP_FILESYSTEM_SETUP_GUIDE.md`) |
+| **Filesystem** (`walk-this-way-files`) | Lets the client read/write the novel folder directly | Project-specific | `.cursor/mcp.json` per novel | Documented active — **only matters in Claude Desktop**; redundant in Cursor if the folder is already the open workspace (see correction in `MCP_FILESYSTEM_SETUP_GUIDE.md`) |
 | **Sequential Thinking** (base) | Step-by-step reasoning scaffold for plot/structure analysis | Global | `~/.cursor/mcp.json` | Documented active — verify it isn't currently duplicated into every novel's project config (it was, per the old template) |
-| **Knowledge Graph Memory** | Persistent character/plot memory across sessions | Project-specific *(via `MEMORY_FILE_PATH`, not the package itself)* | `.cursor/config/mcp.json` per novel | Documented active — **verify a per-novel `MEMORY_FILE_PATH` is actually set**; without one, multiple novels could silently share one memory file |
+| **Knowledge Graph Memory** | Persistent character/plot memory across sessions | Project-specific *(via absolute `MEMORY_FILE_PATH`, not the package itself)* | `.cursor/mcp.json` per novel | In this repo: `MCP_Implementations/knowledge-graph-memory/run.sh` → `.cursor/memory.json`. Relative paths write into the npx cache — always use absolute. |
 | **GitHub** | Repo operations (PRs, issues, commits) | Global | `~/.cursor/mcp.json` | Needs `GITHUB_TOKEN` |
 | **GitKraken** | Enhanced git operations with AI | Global | `~/.cursor/mcp.json` | Documented active, no key needed |
 | **DuckDuckGo Search** | Quick web search / fact-checking | Global | `~/.cursor/mcp.json` | Documented active, no key |
@@ -84,7 +84,7 @@ Two places an MCP's config can live, and the test for which one applies (worked 
 
 | MCP | Purpose (as documented) |
 |---|---|
-| sequential-thinking-mas | Multi-agent sequential reasoning |
+| sequential-thinking-mas | Multi-agent sequential reasoning — **in this repo:** launch via `MCP_Implementations/sequential-thinking-mas/run.sh` + pinned deps; needs host `DEEPSEEK_API_KEY` for tool calls |
 | sequential-thinking-ultra | Bias detection, quality metrics |
 | enhanced-sequential-thinking | 19 reasoning modes |
 | memorygraph | Context optimization |

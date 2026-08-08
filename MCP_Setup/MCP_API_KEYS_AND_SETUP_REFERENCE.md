@@ -1,7 +1,7 @@
 # MCP API Keys & Setup Reference
 
-**Purpose:** Single place to see which MCPs require API keys or extra setup after being added to `.cursor/config/mcp.json`.  
-**Config file:** `.cursor/config/mcp.json`
+**Purpose:** Single place to see which MCPs require API keys or extra setup after being added to `.cursor/mcp.json`.  
+**Config file:** `.cursor/mcp.json` (canonical for this repo; older docs saying `.cursor/config/mcp.json` are outdated)
 
 ---
 
@@ -48,7 +48,7 @@
 
 ## Now enabled – API or install required (book-series, scanadi, writer-mcp, getgather, ebook, ai-context, saner-ai)
 
-These MCPs are **enabled** in `.cursor/config/mcp.json`. Set the env var(s) and/or install the package so they run. If a server fails to start, install per the notes and fix command/args if needed.
+These MCPs are **enabled** in `.cursor/mcp.json`. Set the env var(s) and/or install the package so they run. If a server fails to start, install per the notes and fix command/args if needed.
 
 | MCP | Requires API? | Env var(s) | Notes |
 |-----|----------------|------------|--------|
@@ -64,7 +64,22 @@ These MCPs are **enabled** in `.cursor/config/mcp.json`. Set the env var(s) and/
 
 ## Disabled placeholders in mcp.json
 
-These MCPs are in `.cursor/config/mcp.json` with **`"disabled": true`**. Set the env var(s), then set `"disabled": false` when ready.
+These MCPs are in `.cursor/mcp.json` with **`"disabled": true`**. Set the env var(s), then set `"disabled": false` when ready.
+
+---
+
+## Project MCPs in this repo’s `.cursor/mcp.json`
+
+| MCP | Requires API / token? | Env var(s) | Notes |
+|-----|------------------------|------------|--------|
+| **sequential-thinking** | No | — | `npx @modelcontextprotocol/server-sequential-thinking` |
+| **sequential-thinking-tools** | No | — | `npx mcp-sequentialthinking-tools` |
+| **sequential-thinking-structured** | No | — | `npx mcp-sequential-thinking` |
+| **knowledge-graph-memory** | No | optional override | Launch via `MCP_Implementations/knowledge-graph-memory/run.sh` (absolute `MEMORY_FILE_PATH`). |
+| **sequential-thinking-mas** | Yes (for tool calls) | `DEEPSEEK_API_KEY` (or other provider key), optional `EXA_API_KEY` | Python package — **not** npm `@fradser/...` (404). Install pins: `pip install --user -r MCP_Implementations/sequential-thinking-mas/requirements.txt`. Launch via `run.sh`. Do not put empty API key strings in `mcp.json`. |
+| **fiction-reverse-engineering** | No | — | `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt` |
+
+Verify all six: `bash MCP_Setup/probe_mcp_servers.sh`.
 
 | MCP | Requires API? | Env var(s) in config | Notes |
 |-----|----------------|----------------------|--------|

@@ -1,4 +1,6 @@
 # ✅ MCP Setup Complete - What You Have Now
+> **Config path note (Aug 2026):** Canonical project MCP config is `.cursor/mcp.json`. Older `.cursor/config/mcp.json` mentions in this snapshot are historical.
+
 
 **Date:** January 12, 2026  
 **Status:** Configured & Ready for Installation

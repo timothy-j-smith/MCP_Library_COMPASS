@@ -169,7 +169,7 @@ echo "STEP 4: Enable MCP Servers"
 echo "----------------------------------------"
 echo ""
 
-MCP_CONFIG=".cursor/config/mcp.json"
+MCP_CONFIG=".cursor/mcp.json"
 
 if [ ! -f "$MCP_CONFIG" ]; then
     echo "⚠️  MCP config file not found: $MCP_CONFIG"
@@ -210,7 +210,7 @@ echo ""
 echo "1. If you set up GitHub token, restart your terminal or run:"
 echo "   source ~/.zshrc"
 echo ""
-echo "2. Enable MCP servers in .cursor/config/mcp.json (see Step 4 above)"
+echo "2. Enable MCP servers in .cursor/mcp.json (see Step 4 above)"
 echo ""
 echo "3. Restart Cursor completely"
 echo ""

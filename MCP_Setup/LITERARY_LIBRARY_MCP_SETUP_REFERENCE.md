@@ -1,4 +1,6 @@
 # Literary Library MCPs: Setup Reference (Open Library + Google Books)
+> **Config path note (Aug 2026):** Canonical project MCP config is `.cursor/mcp.json`. Older `.cursor/config/mcp.json` mentions in this snapshot are historical.
+
 **Date:** July 14, 2026
 **Purpose:** Copy-paste config blocks to wire the two book/library-lookup MCPs into Cursor, Claude Desktop, and Claude Code. Do this on your local machine — these files don't exist in the cloud session that generated this doc.
 

@@ -266,7 +266,7 @@ curl -X POST "https://api.vectara.io/v1/query" \
 1. **Restart Cursor** (to load environment variables)
 
 2. **Check MCP Configuration:**
-   - Open `.cursor/config/mcp.json`
+   - Open `.cursor/mcp.json`
    - Verify all `env:VARIABLE_NAME` references are correct
 
 3. **Test MCPs:**
@@ -332,7 +332,7 @@ curl -X POST "https://api.vectara.io/v1/query" \
 
 ### **Problem: MCP not connecting**
 **Solution:**
-1. Check MCP configuration in `.cursor/config/mcp.json`
+1. Check MCP configuration in `.cursor/mcp.json`
 2. Verify environment variable name matches
 3. Check MCP server logs
 4. Restart Cursor
