@@ -8,8 +8,10 @@ COMPASS (Creative Output Management & Production Assistance System) is a **docum
 
 - ~127 Markdown files: research notes, setup guides, session analysis, style MCP docs
 - `MCP_Implementations/fiction-reverse-engineering/`: Fiction Reverse Engineering MCP (local Python MCP server; tools for pacing/formula analysis). Configured in `.cursor/mcp.json` as `fiction-reverse-engineering`. Requires `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt` (package: `mcp`).
+- `MCP_Implementations/sequential-thinking-mas/`: Launcher + pinned deps for the MAS sequential-thinking MCP (`mcp-server-mas-sequential-thinking==0.2.3` + `agno==1.8.4`). Configured in `.cursor/mcp.json` via `run.sh`. Host must supply `DEEPSEEK_API_KEY` (or another provider key) for tool calls; see that folder’s README.
 - `Misc/build_story_structure_mcp.py`: Python utility that converts story synopsis/outline to MCP JSON format (requires the `anthropic` package and an `ANTHROPIC_API_KEY`)
 - `MCP_Setup/setup_mcp.sh`: interactive Bash script for setting up GitKraken CLI and GitHub token (not suitable for non-interactive execution)
+- `MCP_Setup/probe_mcp_servers.sh`: non-interactive JSON-RPC handshake probe for every server in `.cursor/mcp.json`
 - `.cursor/scripts/`: ACE framework session-tracking hooks
 - `.cursor/rules/ace-patterns.mdc`: workspace rule requiring `ace_search` MCP tool calls
 
@@ -27,11 +29,13 @@ This is a **documentation/knowledge-base repository** for the COMPASS (Creative 
 
 - `Misc/build_story_structure_mcp.py`: converts story outlines to MCP-compatible JSON using the Anthropic API. Requires `pip install anthropic` and `ANTHROPIC_API_KEY` (or interactive input). Without story source files (`Story_Bible/synopsis.md`, `Story_Bible/outline.md`), it exits gracefully with a non-zero code — this is expected behavior.
 - `MCP_Implementations/fiction-reverse-engineering/server.py`: Fiction Reverse Engineering MCP (stdio FastMCP). Install with `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt`. Analyzer tests: `python3 MCP_Implementations/fiction-reverse-engineering/tests/test_analyzer.py`.
+- `MCP_Implementations/sequential-thinking-mas/`: install with `pip install --user -r MCP_Implementations/sequential-thinking-mas/requirements.txt`, then launch via `run.sh` (do not put empty `DEEPSEEK_API_KEY`/`EXA_API_KEY` strings in `mcp.json`). Verify with `bash MCP_Setup/probe_mcp_servers.sh`.
 
 ### Shell scripts
 
 - All `.cursor/scripts/ace_*.sh` scripts are ACE (Adaptive Cursor Engine) lifecycle hooks for Cursor IDE. They are invoked by Cursor, not by the developer directly.
 - `MCP_Setup/setup_mcp.sh` is an interactive setup script for GitKraken CLI and GitHub tokens — it prompts for user input and is not suitable for non-interactive/automated use.
+- `MCP_Setup/probe_mcp_servers.sh` probes all project MCPs over stdio; safe for non-interactive use.
 
 ### ACE configuration
 

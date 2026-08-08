@@ -6,6 +6,20 @@
 
 **Last compiled:** July 14, 2026, from the documentation in this repo (primarily `MCP_Research/MCP_COMPLETE_ACTIVE_LIST.md`, dated Jan 24, 2026). **Nothing below has been checked against your actual live `mcp.json` files** — this reflects what the docs say should be true, not a confirmed scan of your Mac. Treat the "Status" column accordingly until you've walked through and confirmed each one.
 
+### This repo’s project `mcp.json` (verified Aug 8, 2026)
+
+**Config path:** `.cursor/mcp.json` (not `.cursor/config/mcp.json`).  
+**Probe:** `bash MCP_Setup/probe_mcp_servers.sh` — all six servers returned initialize + `tools/list` OK after the MAS fix.
+
+| MCP | Command | Handshake | Notes |
+|---|---|---|---|
+| sequential-thinking | `npx -y @modelcontextprotocol/server-sequential-thinking` | OK | No API key |
+| sequential-thinking-tools | `npx -y mcp-sequentialthinking-tools` | OK | No API key |
+| sequential-thinking-structured | `npx -y mcp-sequential-thinking` | OK | No API key |
+| knowledge-graph-memory | `npx -y @modelcontextprotocol/server-memory` | OK | `MEMORY_FILE_PATH=.cursor/memory.json` |
+| sequential-thinking-mas | `bash MCP_Implementations/sequential-thinking-mas/run.sh` | OK | Needs host `DEEPSEEK_API_KEY` for tool calls; pin `agno==1.8.4` + package `0.2.3` (see launcher README). Do not set empty API key strings in `mcp.json`. |
+| fiction-reverse-engineering | `python3 …/server.py` | OK | `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt` |
+
 ---
 
 ## How to read the "Scope" column

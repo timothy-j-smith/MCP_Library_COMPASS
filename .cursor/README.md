@@ -5,8 +5,12 @@ and optional HTTP request guidance.
 
 ## Folder Layout
 
+- `mcp.json` - project MCP server definitions (stdio servers for this workspace)
+- `memory.json` - knowledge-graph-memory store (`MEMORY_FILE_PATH`)
 - `rules/` - always-applied guidance and guardrails for this workspace
 - `http/` - request-file guidance for HTTP request artifacts
+
+To verify every entry in `mcp.json` can initialize: `bash MCP_Setup/probe_mcp_servers.sh`.
 
 ## Cursor 3 Agent Workflow in This Template
 

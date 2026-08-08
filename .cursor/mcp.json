@@ -20,10 +20,12 @@
       }
     },
     "sequential-thinking-mas": {
-      "command": "mcp-server-mas-sequential-thinking",
+      "command": "bash",
+      "args": [
+        "MCP_Implementations/sequential-thinking-mas/run.sh"
+      ],
       "env": {
-        "LLM_PROVIDER": "deepseek",
-        "DEEPSEEK_API_KEY": ""
+        "LLM_PROVIDER": "deepseek"
       }
     },
     "fiction-reverse-engineering": {
