@@ -76,7 +76,7 @@ These MCPs are in `.cursor/mcp.json` with **`"disabled": true`**. Set the env va
 | **sequential-thinking-tools** | No | — | `npx mcp-sequentialthinking-tools` (Node ≥22). Optional; distinct scratchpad/validation tools. |
 | **knowledge-graph-memory** | No | optional override | Launch via `MCP_Implementations/knowledge-graph-memory/run.sh` (absolute `MEMORY_FILE_PATH`). |
 | **sequential-thinking-mas** | Yes (for tool calls) | `DEEPSEEK_API_KEY` (or other provider key), optional `EXA_API_KEY` | Python package — **not** npm `@fradser/...` (404). Install pins: `pip install --user -r MCP_Implementations/sequential-thinking-mas/requirements.txt`. Launch via `run.sh`. Do not put empty API key strings in `mcp.json`. |
-| **fiction-reverse-engineering** | No | — | `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt` |
+| **fiction-reverse-engineering** | No | — | Launch via `MCP_Implementations/fiction-reverse-engineering/run.sh`. Install: `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt`. |
 
 Removed: `sequential-thinking-structured` (`mcp-sequential-thinking`) — stale unofficial clone that collided with the official tool name.
 
