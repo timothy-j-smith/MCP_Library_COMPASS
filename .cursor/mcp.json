@@ -24,13 +24,10 @@
       }
     },
     "fiction-reverse-engineering": {
-      "command": "python3",
+      "command": "bash",
       "args": [
-        "MCP_Implementations/fiction-reverse-engineering/server.py"
-      ],
-      "env": {
-        "FICTION_RE_FORMULAS_DIR": "MCP_Implementations/fiction-reverse-engineering/formulas"
-      }
+        "MCP_Implementations/fiction-reverse-engineering/run.sh"
+      ]
     }
   }
 }

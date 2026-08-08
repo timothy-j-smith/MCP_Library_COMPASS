@@ -7,7 +7,7 @@ COMPASS (Creative Output Management & Production Assistance System) is a **docum
 ### Repository contents
 
 - ~127 Markdown files: research notes, setup guides, session analysis, style MCP docs
-- `MCP_Implementations/fiction-reverse-engineering/`: Fiction Reverse Engineering MCP (local Python MCP server; tools for pacing/formula analysis). Configured in `.cursor/mcp.json` as `fiction-reverse-engineering`. Requires `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt` (package: `mcp`).
+- `MCP_Implementations/fiction-reverse-engineering/`: Fiction Reverse Engineering MCP (local Python MCP server; tools for pacing/formula analysis). Configured in `.cursor/mcp.json` as `fiction-reverse-engineering` via `run.sh` (absolute formulas dir). Requires `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt` (package: `mcp`).
 - `MCP_Implementations/sequential-thinking-mas/`: Launcher + pinned deps for the MAS sequential-thinking MCP (`mcp-server-mas-sequential-thinking==0.2.3` + `agno==1.8.4`). Configured in `.cursor/mcp.json` via `run.sh`. Host must supply `DEEPSEEK_API_KEY` (or another provider key) for tool calls; see that folder’s README.
 - `MCP_Implementations/knowledge-graph-memory/`: Launcher for `@modelcontextprotocol/server-memory` that forces an absolute `MEMORY_FILE_PATH` (relative paths write into the npx package cache).
 - `Misc/build_story_structure_mcp.py`: Python utility that converts story synopsis/outline to MCP JSON format (requires the `anthropic` package and an `ANTHROPIC_API_KEY`)
@@ -29,7 +29,7 @@ This is a **documentation/knowledge-base repository** for the COMPASS (Creative 
 ### Python scripts / MCP servers
 
 - `Misc/build_story_structure_mcp.py`: converts story outlines to MCP-compatible JSON using the Anthropic API. Requires `pip install anthropic` and `ANTHROPIC_API_KEY` (or interactive input). Without story source files (`Story_Bible/synopsis.md`, `Story_Bible/outline.md`), it exits gracefully with a non-zero code — this is expected behavior.
-- `MCP_Implementations/fiction-reverse-engineering/server.py`: Fiction Reverse Engineering MCP (stdio FastMCP). Install with `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt`. Analyzer tests: `python3 MCP_Implementations/fiction-reverse-engineering/tests/test_analyzer.py`.
+- `MCP_Implementations/fiction-reverse-engineering/server.py`: Fiction Reverse Engineering MCP (stdio FastMCP), launched by `run.sh`. Install with `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt`. Analyzer tests: `python3 MCP_Implementations/fiction-reverse-engineering/tests/test_analyzer.py`.
 - `MCP_Implementations/sequential-thinking-mas/`: install with `pip install --user -r MCP_Implementations/sequential-thinking-mas/requirements.txt`, then launch via `run.sh` (do not put empty `DEEPSEEK_API_KEY`/`EXA_API_KEY` strings in `mcp.json`). Verify with `bash MCP_Setup/probe_mcp_servers.sh`.
 
 ### Shell scripts

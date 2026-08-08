@@ -17,7 +17,7 @@
 | sequential-thinking-tools | `npx -y mcp-sequentialthinking-tools` | OK | Scratchpad + optional tool-plan validation; requires Node ≥22 |
 | knowledge-graph-memory | `bash MCP_Implementations/knowledge-graph-memory/run.sh` | OK | Absolute `MEMORY_FILE_PATH` to `.cursor/memory.json` (relative paths resolve under npx `dist/`, not the repo) |
 | sequential-thinking-mas | `bash MCP_Implementations/sequential-thinking-mas/run.sh` | OK | Needs host `DEEPSEEK_API_KEY` for tool calls; pin `agno==1.8.4` + package `0.2.3` (see launcher README). Do not set empty API key strings in `mcp.json`. |
-| fiction-reverse-engineering | `python3 …/server.py` | OK | `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt` |
+| fiction-reverse-engineering | `bash …/run.sh` | OK | Absolute formulas dir via launcher; `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt` |
 
 Removed from config: **`sequential-thinking-structured`** (`mcp-sequential-thinking`) — unofficial republish of the official tool, same `sequentialthinking` tool name, stale SDK pin. Use official `sequential-thinking` only.
 

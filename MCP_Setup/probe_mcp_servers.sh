@@ -33,6 +33,4 @@ probe sequential-thinking npx -y @modelcontextprotocol/server-sequential-thinkin
 probe sequential-thinking-tools npx -y mcp-sequentialthinking-tools
 probe knowledge-graph-memory bash MCP_Implementations/knowledge-graph-memory/run.sh
 probe sequential-thinking-mas bash MCP_Implementations/sequential-thinking-mas/run.sh
-probe fiction-reverse-engineering \
-  env FICTION_RE_FORMULAS_DIR="MCP_Implementations/fiction-reverse-engineering/formulas" \
-  python3 MCP_Implementations/fiction-reverse-engineering/server.py
+probe fiction-reverse-engineering bash MCP_Implementations/fiction-reverse-engineering/run.sh
