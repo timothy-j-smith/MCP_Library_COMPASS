@@ -32,7 +32,7 @@ echo "Probing MCPs from .cursor/mcp.json (cwd=$ROOT)"
 probe sequential-thinking npx -y @modelcontextprotocol/server-sequential-thinking
 probe sequential-thinking-tools npx -y mcp-sequentialthinking-tools
 probe sequential-thinking-structured npx -y mcp-sequential-thinking
-probe knowledge-graph-memory env MEMORY_FILE_PATH=".cursor/memory.json" npx -y @modelcontextprotocol/server-memory
+probe knowledge-graph-memory bash MCP_Implementations/knowledge-graph-memory/run.sh
 probe sequential-thinking-mas bash MCP_Implementations/sequential-thinking-mas/run.sh
 probe fiction-reverse-engineering \
   env FICTION_RE_FORMULAS_DIR="MCP_Implementations/fiction-reverse-engineering/formulas" \

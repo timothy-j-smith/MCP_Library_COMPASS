@@ -16,7 +16,7 @@
 | sequential-thinking | `npx -y @modelcontextprotocol/server-sequential-thinking` | OK | No API key |
 | sequential-thinking-tools | `npx -y mcp-sequentialthinking-tools` | OK | No API key |
 | sequential-thinking-structured | `npx -y mcp-sequential-thinking` | OK | No API key |
-| knowledge-graph-memory | `npx -y @modelcontextprotocol/server-memory` | OK | `MEMORY_FILE_PATH=.cursor/memory.json` |
+| knowledge-graph-memory | `bash MCP_Implementations/knowledge-graph-memory/run.sh` | OK | Absolute `MEMORY_FILE_PATH` to `.cursor/memory.json` (relative paths resolve under npx `dist/`, not the repo) |
 | sequential-thinking-mas | `bash MCP_Implementations/sequential-thinking-mas/run.sh` | OK | Needs host `DEEPSEEK_API_KEY` for tool calls; pin `agno==1.8.4` + package `0.2.3` (see launcher README). Do not set empty API key strings in `mcp.json`. |
 | fiction-reverse-engineering | `python3 …/server.py` | OK | `pip install -r MCP_Implementations/fiction-reverse-engineering/requirements.txt` |
 
