@@ -6,6 +6,19 @@
 
 ---
 
+## ⚠️ CORRECTION (added July 14, 2026): This is NOT universally necessary
+
+Everything below was written as if Filesystem MCP is required "foundation" for every client. That's only true for **Claude Desktop** (the local Mac app, not Claude Projects on claude.ai). It is redundant in other places:
+
+- **Cursor:** Already has native, built-in file read/write/search tools for whatever folder is open as the workspace. Filesystem MCP pointed at that same folder duplicates functionality Cursor's own agent already has — it does nothing extra. It's only useful in Cursor if you want the agent to reach a folder **outside** the current workspace (e.g., a different novel's folder).
+- **Claude Projects (claude.ai web):** Uses a manually-uploaded, static knowledge-base snapshot, not live disk access. It runs in the cloud with no path to your Mac's disk at all, so a local Filesystem MCP server can't attach to it regardless — this isn't a redundancy, it's a different mechanism entirely (re-upload files by hand to update what Claude sees there).
+- **Claude Desktop (local app):** This is the one place Filesystem MCP does real work — the chat app has no disk access on its own, so this is the only way to give it live read/write to the novel folder.
+- **HyperAgent** (and similar tools that take "docs" as input): likely closer to the Projects model — static context you feed it — but confirm against that tool's own docs rather than assuming.
+
+**Practical takeaway for Walk This Way:** if you write exclusively inside Cursor with the folder open as the workspace, `walk-this-way-files` in that client's config is inert — safe to remove there. Keep it only for Claude Desktop, or if you want cross-folder access inside Cursor.
+
+---
+
 ## 🎯 YOUR QUESTION ANSWERED
 
 **Q: "Is Filesystem MCP specific to Walk This Way folder, and for the next novel I'd set it up similarly and make sure we don't forget since it's embedded in Walk This Way?"**
@@ -102,11 +115,46 @@ You *could* use `~/.cursor/mcp.json` (global), but:
 
 **File:** `zz_COMPASS/Core/Universal-Fiction-Templates.md` or `zz_COMPASS/Helpful_Hints.md`
 
-**Add Section:**
-```markdown
-## MCP CONFIGURATION CHECKLIST (Novel Setup)
+### ⚠️ Split by scope, not by list (correction, July 14 2026)
 
-When starting a new novel, remember to set up MCPs:
+The original checklist below told you to re-add all four MCPs to every new novel's project config. That's only correct for the ones that actually point at *this* novel's folder. Sort each MCP by whether its config contains a path:
+
+**Global — set up once in `~/.cursor/mcp.json`, never repeated per novel:**
+- **Sequential Thinking MCP** — no path anywhere in its config; it's a generic reasoning tool.
+  ```json
+  "sequential-thinking": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+  }
+  ```
+
+**Project-specific — one entry per novel, in that novel's own `.cursor/config/mcp.json`:**
+- **Filesystem MCP** — the path *is* the config; it has to point at the current novel's folder.
+  ```json
+  "[novel-name]-files": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-filesystem", "/PATH/TO/NOVEL/FOLDER"]
+  }
+  ```
+- **COMPASS Writing Guides MCP** — project-specific *if* you keep a separate `zz_COMPASS/` copy inside each novel's folder (as the paths elsewhere in this repo suggest). If it's actually one shared install referenced by every novel, it belongs in the global config instead — check where your real `COMPASS_Writing_Guides_MCP/server.py` lives before deciding.
+  ```json
+  "compass-writing-guides": {
+    "command": "/PATH/TO/COMPASS/Writing_Guides_MCP/venv/bin/python",
+    "args": ["/PATH/TO/COMPASS/Writing_Guides_MCP/server.py"]
+  }
+  ```
+
+**Special case — Knowledge Graph Memory MCP:** its `command`/`args` look generic (no path), but `@modelcontextprotocol/server-memory` writes its character/plot data to a file that defaults to a fixed location inside the package install if you don't set one. That means running it "globally" without a per-novel `MEMORY_FILE_PATH` would silently mix Walk This Way's character memory with every other novel's. Set the path explicitly per novel even though the server itself is reused:
+  ```json
+  "knowledge-graph-memory": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-memory"],
+    "env": {
+      "MEMORY_FILE_PATH": "/PATH/TO/NOVEL/FOLDER/zz_COMPASS/memory.json"
+    }
+  }
+  ```
+  **The rule this reveals:** don't just check `args` for a path — also check `env` for anything that names a data file or storage location. A server can look generic and still be secretly project-specific because of where it *saves* things, not where it *runs from*.
 
 ### **Step 1: Create MCP Config Folder**
 - Create `.cursor/config/` folder in novel root
@@ -118,10 +166,10 @@ When starting a new novel, remember to set up MCPs:
 - Point to novel folder path
 
 ### **Step 3: Configure Core MCPs**
-- Filesystem MCP (novel-specific path) ✅
-- Sequential Thinking MCP ✅
-- COMPASS Writing Guides MCP ✅
-- Knowledge Graph Memory MCP ✅
+- Filesystem MCP (novel-specific path, project config) ✅
+- Knowledge Graph Memory MCP (novel-specific `MEMORY_FILE_PATH`, project config) ✅
+- COMPASS Writing Guides MCP (project config, unless shared — see above) ✅
+- Sequential Thinking MCP (global config, set up once — not per novel) ✅
 - (Add other MCPs as needed)
 
 ### **Step 4: Test MCPs**
@@ -129,7 +177,7 @@ When starting a new novel, remember to set up MCPs:
 - Test: "Show me the README from this project" (tests Filesystem)
 - Test: "Use sequential-thinking MCP to analyze this problem" (tests Sequential Thinking)
 
-**Template MCP Config:**
+**Template MCP Config — project-specific file (`.cursor/config/mcp.json` inside the novel folder):**
 ```json
 {
   "mcpServers": {
@@ -142,9 +190,12 @@ When starting a new novel, remember to set up MCPs:
       ],
       "disabled": false
     },
-    "sequential-thinking": {
+    "knowledge-graph-memory": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "env": {
+        "MEMORY_FILE_PATH": "/PATH/TO/NOVEL/FOLDER/zz_COMPASS/memory.json"
+      },
       "disabled": false
     },
     "compass-writing-guides": {
@@ -155,6 +206,18 @@ When starting a new novel, remember to set up MCPs:
   }
 }
 ```
+
+**Template MCP Config — global file (`~/.cursor/mcp.json`, set up once, applies to every novel):**
+```json
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "disabled": false
+    }
+  }
+}
 ```
 
 ---

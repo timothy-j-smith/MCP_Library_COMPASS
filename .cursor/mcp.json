@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "sequential-thinking-tools": {
+      "command": "npx",
+      "args": ["-y", "mcp-sequentialthinking-tools"]
+    },
+    "sequential-thinking-structured": {
+      "command": "npx",
+      "args": ["-y", "mcp-sequential-thinking"]
+    },
+    "knowledge-graph-memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "env": {
+        "MEMORY_FILE_PATH": ".cursor/memory.json"
+      }
+    },
+    "sequential-thinking-mas": {
+      "command": "mcp-server-mas-sequential-thinking",
+      "env": {
+        "LLM_PROVIDER": "deepseek",
+        "DEEPSEEK_API_KEY": ""
+      }
+    },
+    "fiction-reverse-engineering": {
+      "command": "python3",
+      "args": [
+        "MCP_Implementations/fiction-reverse-engineering/server.py"
+      ],
+      "env": {
+        "FICTION_RE_FORMULAS_DIR": "MCP_Implementations/fiction-reverse-engineering/formulas"
+      }
+    }
+  }
+}

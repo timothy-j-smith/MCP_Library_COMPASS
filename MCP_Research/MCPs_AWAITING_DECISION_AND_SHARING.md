@@ -28,7 +28,7 @@ These are in your **`.cursor/config/mcp.json`** with **`"disabled": true`**. For
 
 | MCP | Status | To get working |
 |-----|--------|----------------|
-| **book-series** | **Enabled** | Install (e.g. `pip install book-series-mcp` or clone repo), set `POSTGRES_URI`. See MCP_API_KEYS_AND_SETUP_REFERENCE.md. |
+| **book-series** | **Enabled** | **Node.js + PostgreSQL** (not Python): clone repo, `npm install`, load `init.sql` + `migrations/`, set `DATABASE_URL`. See MCP_Setup/BOOK_SERIES_MCP_SETUP_AND_CONVERSION.md. |
 | **scanadi-mcp-ai-memory** | **Enabled** | Install mcp-ai-memory (PostgreSQL + pgvector), set `POSTGRES_URI`. |
 | **writer-mcp** | **Enabled** | Install writer-mcp, set `POSTGRES_URI`, `OPENAI_API_KEY`. |
 | **getgather** | **Enabled** | Install [mcp-getgather](https://github.com/mcp-getgather/mcp-getgather), ensure `python -m mcp_getgather` works. |
