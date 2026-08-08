@@ -9,6 +9,8 @@ INIT='{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":
 NOTIFY='{"jsonrpc":"2.0","method":"notifications/initialized"}'
 LIST='{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'
 
+FAILURES=0
+
 probe() {
   local name="$1"
   shift
@@ -24,6 +26,7 @@ probe() {
   else
     echo "FAIL $name (exit=$rc)"
     echo "  stderr: $(head -n 3 "$err" | tr '\n' ' ')"
+    FAILURES=$((FAILURES + 1))
   fi
   rm -f "$out" "$err"
 }
@@ -33,7 +36,11 @@ probe sequential-thinking npx -y @modelcontextprotocol/server-sequential-thinkin
 probe sequential-thinking-tools npx -y mcp-sequentialthinking-tools
 probe sequential-thinking-structured npx -y mcp-sequential-thinking
 probe knowledge-graph-memory env MEMORY_FILE_PATH=".cursor/memory.json" npx -y @modelcontextprotocol/server-memory
-probe sequential-thinking-mas bash MCP_Implementations/sequential-thinking-mas/run.sh
+probe sequential-thinking-mas env LLM_PROVIDER=deepseek bash MCP_Implementations/sequential-thinking-mas/run.sh
 probe fiction-reverse-engineering \
   env FICTION_RE_FORMULAS_DIR="MCP_Implementations/fiction-reverse-engineering/formulas" \
   python3 MCP_Implementations/fiction-reverse-engineering/server.py
+
+if (( FAILURES > 0 )); then
+  exit 1
+fi
