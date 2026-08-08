@@ -31,7 +31,6 @@ probe() {
 echo "Probing MCPs from .cursor/mcp.json (cwd=$ROOT)"
 probe sequential-thinking npx -y @modelcontextprotocol/server-sequential-thinking
 probe sequential-thinking-tools npx -y mcp-sequentialthinking-tools
-probe sequential-thinking-structured npx -y mcp-sequential-thinking
 probe knowledge-graph-memory bash MCP_Implementations/knowledge-graph-memory/run.sh
 probe sequential-thinking-mas bash MCP_Implementations/sequential-thinking-mas/run.sh
 probe fiction-reverse-engineering \

@@ -8,10 +8,6 @@
       "command": "npx",
       "args": ["-y", "mcp-sequentialthinking-tools"]
     },
-    "sequential-thinking-structured": {
-      "command": "npx",
-      "args": ["-y", "mcp-sequential-thinking"]
-    },
     "knowledge-graph-memory": {
       "command": "bash",
       "args": [
