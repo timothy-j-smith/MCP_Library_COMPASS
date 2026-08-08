@@ -116,4 +116,4 @@ book-series, scanadi-mcp-ai-memory, writer-mcp, getgather, ebook, ai-context, sa
 **Disabled placeholders (need keys + install, then set `disabled: false`):**  
 google-books, goodreads-scraper, grammarly-ai, word-tune, winston-ai, copyscape, vellum, clerk, yepcode, openmemory.
 
-Set env vars in your shell profile (e.g. `~/.zshrc`) or in Cursor’s environment so they’re available to MCPs. Use `env:VAR_NAME` in `mcp.json` so the config stays key-free.
+Set env vars in your shell profile (e.g. `~/.zshrc`) or in Cursor’s environment so they’re available to MCPs. In `mcp.json`, prefer `"${env:VAR_NAME}"` (or omit the key and inherit the host env). Never set `"VAR_NAME": ""` — an empty string overrides a real host key.

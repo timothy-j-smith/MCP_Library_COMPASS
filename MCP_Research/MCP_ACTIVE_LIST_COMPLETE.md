@@ -137,7 +137,7 @@
 
 ### 15. sequential-thinking-mas
 - **Status:** ✅ Configured, ready after restart
-- **Package:** `@fradser/mcp-server-mas-sequential-thinking`
+- **Package:** Python `mcp-server-mas-sequential-thinking` (see `MCP_Implementations/sequential-thinking-mas/`; npm `@fradser/...` is 404)
 - **Purpose:** Multi-Agent System - multiple perspectives simultaneously
 - **No setup needed**
 

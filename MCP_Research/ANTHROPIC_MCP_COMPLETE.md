@@ -79,7 +79,7 @@ Based on standard MCP patterns, these may also exist (need verification):
 ### Sequential Thinking Variants (Based on Anthropic Research):
 
 1. **Sequential Thinking MAS** ⭐⭐⭐⭐⭐
-   - **Package:** `@fradser/mcp-server-mas-sequential-thinking`
+   - **Package:** Python `mcp-server-mas-sequential-thinking` (pinned via `MCP_Implementations/sequential-thinking-mas/`; npm `@fradser/...` is 404)
    - **Status:** ✅ Installed
    - **Purpose:** Multi-Agent System variant of Sequential Thinking
    - **Your Config Name:** `sequential-thinking-mas`
