@@ -13,7 +13,7 @@
 | **exa** | Yes | `EXA_API_KEY` | [Exa dashboard](https://dashboard.exa.ai/api-keys). Package: `exa-mcp-server`. |
 | **figma** | Yes | `FIGMA_ACCESS_TOKEN` | [Figma → Settings → Personal access tokens](https://www.figma.com/settings). Package: `figma-developer-mcp`; read-only token is enough. |
 | **linear** | Yes (OAuth) | — | Remote server: `https://mcp.linear.app/mcp`. First connection may prompt for Linear login. [Linear MCP docs](https://linear.app/docs/mcp). |
-| **slack** | Yes | `SLACK_BOT_TOKEN`, `SLACK_TEAM_ID` | Create Slack App, OAuth scopes: `channels:history`, `channels:read`, `chat:write`, `reactions:write`, `users:read`. Package: `@modelcontextprotocol/server-slack` (deprecated but functional). |
+| **slack** | Yes | OAuth via official remote MCP, **or** `SLACK_BOT_TOKEN` + `SLACK_TEAM_ID` | **Put in global `~/.cursor/mcp.json`** so every Cursor repo gets Slack — not only this project. Full map: `GLOBAL_MCP_AND_SLACK_CONNECTION_MAP.md`. Bot scopes: `channels:history`, `channels:read`, `chat:write`, `reactions:write`, `users:read`. Stdio package: `@modelcontextprotocol/server-slack`. Remote: `https://mcp.slack.com/mcp`. |
 | **puppeteer** | No | — | Browser automation. Package: `@modelcontextprotocol/server-puppeteer`. No API key. |
 | **fetch** | No | — | Fetch URL content as markdown. Package: `@mcpflow.io/mcp-fetch`. No API key. |
 | **openmemory** | Yes (hosted) | `OPENMEMORY_API_KEY` | Mem0/OpenMemory; **disabled** by default. [app.openmemory.dev](https://app.openmemory.dev). Package may be `@openmemory/mcp-server`; if not found, use installer: `npx @openmemory/install --client cursor`. |

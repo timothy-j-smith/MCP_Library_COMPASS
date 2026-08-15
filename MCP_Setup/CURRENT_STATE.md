@@ -30,6 +30,7 @@ Two places an MCP's config can live, and the test for which one applies (worked 
 | **GitKraken** | Enhanced git operations with AI | Global | `~/.cursor/mcp.json` | Documented active, no key needed |
 | **DuckDuckGo Search** | Quick web search / fact-checking | Global | `~/.cursor/mcp.json` | Documented active, no key |
 | **Pandoc** | Document format conversion | Global | `~/.cursor/mcp.json` | Needs Pandoc installed (`brew install pandoc`) |
+| **Slack** (+ Slackbot) | Read/send workspace messages; must not be bound to one repo | **Global** (or Team MCP for Cloud Agents) | `~/.cursor/mcp.json` — see `GLOBAL_MCP_AND_SLACK_CONNECTION_MAP.md` | Official remote MCP OAuth **or** `SLACK_BOT_TOKEN` + `SLACK_TEAM_ID`. Do **not** put only in a single project `mcp.json` if you want every Cursor repo. |
 
 ---
 
