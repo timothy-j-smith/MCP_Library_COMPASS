@@ -1,0 +1,7 @@
+# Pinned for a working MCP handshake with the PyPI release.
+# Do NOT upgrade agno past 1.x without switching to a newer MAS server
+# that imports ReasoningTools (GitHub v0.5+), and verify that release
+# against the installed `mcp` package (v0.8.0 currently fails:
+# ModuleNotFoundError: mcp.server.mcpserver).
+mcp-server-mas-sequential-thinking==0.2.3
+agno==1.8.4
