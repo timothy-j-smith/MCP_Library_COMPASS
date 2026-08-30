@@ -22,9 +22,7 @@ resolve_bin() {
   fi
   for candidate in \
     "${HOME}/.local/bin/${BIN_NAME}" \
-    "${HOME}/Library/Python/3.12/bin/${BIN_NAME}" \
-    "${HOME}/Library/Python/3.11/bin/${BIN_NAME}" \
-    "${HOME}/Library/Python/3.10/bin/${BIN_NAME}"
+    "${HOME}"/Library/Python/*/bin/"${BIN_NAME}"
   do
     if [[ -x "$candidate" ]]; then
       echo "$candidate"
